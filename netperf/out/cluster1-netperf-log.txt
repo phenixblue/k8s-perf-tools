@@ -698,3 +698,642 @@ Aggregated Function Time : count 4415 avg 0.00045080113 +/- 0.0002806 min 0.0003
 # target 99.9% 0.00293083
 Ping SERVING : 4415
 All done 4415 calls (plus 1 warmup) 0.451 ms avg, 2207.0 qps
+No Baseline flag is: 1
+Node: meetup1-c8q39
+Node: meetup1-c8q83
+Node: meetup1-c8q8n
+Pod: netperf-host-874pw  in  default 
+Pod: netperf-host-g2cc2  in  default 
+Pod: netperf-host-qv44k  in  default 
+Pod: netperf-pod-77c9846498-cwqf4  in  default 
+Pod: netperf-pod-77c9846498-pplxf  in  default 
+Pod: netperf-pod-cxjzt  in  default 
+Pod: netperf-pod-d4wq7  in  default 
+Pod: netperf-pod-dvrd4  in  default 
+service: netperf-server  in  default IP=10.245.186.73 <none> app=netperf-pod 
+meetup1-c8q83 HASH(0x151015a50) meetup1-c8q8n HASH(0x151015ae0) meetup1-c8q39 HASH(0x1510724e8)
+netperf-pod-77c9846498-cwqf4 HASH(0x151082ca0) netperf-pod-d4wq7 HASH(0x151071e58) netperf-pod-cxjzt HASH(0x1510268f0) netperf-pod-77c9846498-pplxf HASH(0x1510270b8) netperf-pod-dvrd4 HASH(0x151082cb8)
+netperf-server HASH(0x151083240)
+running command: kubectl exec -it netperf-pod-77c9846498-pplxf -- iperf -c 10.244.1.77 -i 1 -t 2 
+------------------------------------------------------------
+Client connecting to 10.244.1.77, TCP port 5001
+TCP window size: 85.0 KByte (default)
+------------------------------------------------------------
+[  3] local 10.244.1.119 port 53916 connected with 10.244.1.77 port 5001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0- 1.0 sec  2.64 GBytes  22.7 Gbits/sec
+[  3]  1.0- 2.0 sec  2.76 GBytes  23.7 Gbits/sec
+[  3]  0.0- 2.0 sec  5.41 GBytes  23.2 Gbits/sec
+running command: kubectl exec -it netperf-pod-77c9846498-pplxf -- netperf -H 10.244.1.77 -l 2 -P 1 -t TCP_RR -- -r 32,1024 -o P50_LATENCY,P90_LATENCY,P99_LATENCY,THROUGHPUT,THROUGHPUT_UNITS 
+MIGRATED TCP REQUEST/RESPONSE TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.244.1.77 (10.244.) port 0 AF_INET : first burst 0
+50th Percentile Latency Microseconds,90th Percentile Latency Microseconds,99th Percentile Latency Microseconds,Throughput,Throughput Units
+17,30,46,46240.48,Trans/s
+running command: kubectl exec -it netperf-pod-77c9846498-pplxf -- netperf -H 10.244.1.77 -l 2 -P 1 -t TCP_CRR -- -r 32,1024 -o THROUGHPUT,THROUGHPUT_UNITS 
+MIGRATED TCP Connect/Request/Response TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.244.1.77 (10.244.) port 0 AF_INET
+Throughput,Throughput Units
+11122.23,Trans/s
+running command: kubectl exec -it netperf-pod-77c9846498-pplxf -- fortio load -qps 0 -c 1 -http1.0 -t 2s 10.244.1.77:8080 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.244.1.77:8080
+18:43:53 I httprunner.go:82> Starting http test for 10.244.1.77:8080 with 1 threads at -1.0 qps
+18:43:53 W http_client.go:142> Assuming http:// on missing scheme for '10.244.1.77:8080'
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:43:55 I periodic.go:533> T000 ended after 2.000180899s : 9396 calls. qps=4697.575106680388
+Ended after 2.00022938s : 9396 calls. qps=4697.5
+Aggregated Function Time : count 9396 avg 0.00021256648 +/- 0.0001087 min 0.000119533 max 0.004994406 sum 1.99727467
+# range, mid point, percentile, count
+>= 0.000119533 <= 0.001 , 0.000559767 , 99.87, 9384
+> 0.001 <= 0.002 , 0.0015 , 99.95, 7
+> 0.002 <= 0.003 , 0.0025 , 99.96, 1
+> 0.003 <= 0.004 , 0.0035 , 99.98, 2
+> 0.004 <= 0.00499441 , 0.0044972 , 100.00, 2
+# target 50% 0.000560283
+# target 75% 0.000780704
+# target 90% 0.000912957
+# target 99% 0.000992309
+# target 99.9% 0.001372
+Sockets used: 9397 (for perfect keepalive, would be 1)
+Code 200 : 9396 (100.0 %)
+Response Header Sizes : count 9396 avg 0 +/- 0 min 0 max 0 sum 0
+Response Body/Total Sizes : count 9396 avg 75 +/- 0 min 75 max 75 sum 704700
+All done 9396 calls (plus 1 warmup) 0.213 ms avg, 4697.5 qps
+running command: kubectl exec -it netperf-pod-77c9846498-pplxf -- fortio load -qps 0 -c 1 -t 2s 10.244.1.77:8080 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.244.1.77:8080
+18:43:56 I httprunner.go:82> Starting http test for 10.244.1.77:8080 with 1 threads at -1.0 qps
+18:43:56 W http_client.go:142> Assuming http:// on missing scheme for '10.244.1.77:8080'
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:43:58 I periodic.go:533> T000 ended after 2.000049092s : 22824 calls. qps=11411.719887923633
+Ended after 2.000110194s : 22824 calls. qps=11411
+Aggregated Function Time : count 22824 avg 8.7409258e-05 +/- 0.0001618 min 3.5237e-05 max 0.012154871 sum 1.99502891
+# range, mid point, percentile, count
+>= 3.5237e-05 <= 0.001 , 0.000517619 , 99.84, 22788
+> 0.001 <= 0.002 , 0.0015 , 99.92, 18
+> 0.002 <= 0.003 , 0.0025 , 99.94, 4
+> 0.003 <= 0.004 , 0.0035 , 99.96, 4
+> 0.004 <= 0.005 , 0.0045 , 99.98, 5
+> 0.006 <= 0.007 , 0.0065 , 99.98, 1
+> 0.007 <= 0.008 , 0.0075 , 99.99, 2
+> 0.008 <= 0.009 , 0.0085 , 100.00, 1
+> 0.012 <= 0.0121549 , 0.0120774 , 100.00, 1
+# target 50% 0.000518359
+# target 75% 0.000759942
+# target 90% 0.000904891
+# target 99% 0.000991861
+# target 99.9% 0.001732
+Sockets used: 1 (for perfect keepalive, would be 1)
+Code 200 : 22824 (100.0 %)
+Response Header Sizes : count 22824 avg 75 +/- 0 min 75 max 75 sum 1711800
+Response Body/Total Sizes : count 22824 avg 75 +/- 0 min 75 max 75 sum 1711800
+All done 22824 calls (plus 1 warmup) 0.087 ms avg, 11411.4 qps
+running command: kubectl exec -it netperf-pod-77c9846498-pplxf -- fortio load -qps 0 -c 1 -grpc -ping -t 2s 10.244.1.77 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.244.1.77
+18:43:59 I grpcrunner.go:152> Starting GRPC Ping test for 10.244.1.77 with 1*1 threads at -1.0 qps
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:44:01 I periodic.go:533> T000 ended after 2.000045562s : 13177 calls. qps=6588.349910800683
+Ended after 2.000090001s : 13177 calls. qps=6588.2
+Aggregated Function Time : count 13177 avg 0.00015142899 +/- 0.0001046 min 8.1797e-05 max 0.004356029 sum 1.99537974
+# range, mid point, percentile, count
+>= 8.1797e-05 <= 0.001 , 0.000540899 , 99.81, 13152
+> 0.001 <= 0.002 , 0.0015 , 99.95, 19
+> 0.002 <= 0.003 , 0.0025 , 99.96, 1
+> 0.003 <= 0.004 , 0.0035 , 99.98, 2
+> 0.004 <= 0.00435603 , 0.00417801 , 100.00, 3
+# target 50% 0.000541736
+# target 75% 0.000771741
+# target 90% 0.000909744
+# target 99% 0.000992545
+# target 99.9% 0.00162226
+Ping SERVING : 13177
+All done 13177 calls (plus 1 warmup) 0.151 ms avg, 6588.2 qps
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- iperf -c 10.244.0.33 -i 1 -t 2 
+------------------------------------------------------------
+Client connecting to 10.244.0.33, TCP port 5001
+TCP window size: 85.0 KByte (default)
+------------------------------------------------------------
+[  3] local 10.244.0.56 port 35852 connected with 10.244.0.33 port 5001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0- 1.0 sec   830 MBytes  6.96 Gbits/sec
+[  3]  1.0- 2.0 sec  1.91 GBytes  16.4 Gbits/sec
+[  3]  0.0- 2.0 sec  2.72 GBytes  11.7 Gbits/sec
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- netperf -H 10.244.0.33 -l 2 -P 1 -t TCP_RR -- -r 32,1024 -o P50_LATENCY,P90_LATENCY,P99_LATENCY,THROUGHPUT,THROUGHPUT_UNITS 
+MIGRATED TCP REQUEST/RESPONSE TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.244.0.33 (10.244.) port 0 AF_INET : first burst 0
+50th Percentile Latency Microseconds,90th Percentile Latency Microseconds,99th Percentile Latency Microseconds,Throughput,Throughput Units
+37,47,106,24273.25,Trans/s
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- netperf -H 10.244.0.33 -l 2 -P 1 -t TCP_CRR -- -r 32,1024 -o THROUGHPUT,THROUGHPUT_UNITS 
+MIGRATED TCP Connect/Request/Response TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.244.0.33 (10.244.) port 0 AF_INET
+Throughput,Throughput Units
+7229.82,Trans/s
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- fortio load -qps 0 -c 1 -http1.0 -t 2s 10.244.0.33:8080 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.244.0.33:8080
+18:44:14 I httprunner.go:82> Starting http test for 10.244.0.33:8080 with 1 threads at -1.0 qps
+18:44:14 W http_client.go:142> Assuming http:// on missing scheme for '10.244.0.33:8080'
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:44:16 I periodic.go:533> T000 ended after 2.000048046s : 4859 calls. qps=2429.441637523542
+Ended after 2.00012186s : 4859 calls. qps=2429.4
+Aggregated Function Time : count 4859 avg 0.00041112052 +/- 0.0004546 min 0.000164204 max 0.01595046 sum 1.9976346
+# range, mid point, percentile, count
+>= 0.000164204 <= 0.001 , 0.000582102 , 97.82, 4753
+> 0.001 <= 0.002 , 0.0015 , 99.05, 60
+> 0.002 <= 0.003 , 0.0025 , 99.53, 23
+> 0.003 <= 0.004 , 0.0035 , 99.71, 9
+> 0.004 <= 0.005 , 0.0045 , 99.86, 7
+> 0.005 <= 0.006 , 0.0055 , 99.92, 3
+> 0.007 <= 0.008 , 0.0075 , 99.94, 1
+> 0.01 <= 0.011 , 0.0105 , 99.96, 1
+> 0.011 <= 0.012 , 0.0115 , 99.98, 1
+> 0.014 <= 0.0159505 , 0.0149752 , 100.00, 1
+# target 50% 0.000591336
+# target 75% 0.00080499
+# target 90% 0.000933182
+# target 99% 0.00195683
+# target 99.9% 0.00571367
+Sockets used: 4860 (for perfect keepalive, would be 1)
+Code 200 : 4859 (100.0 %)
+Response Header Sizes : count 4859 avg 0 +/- 0 min 0 max 0 sum 0
+Response Body/Total Sizes : count 4859 avg 75 +/- 0 min 75 max 75 sum 364425
+All done 4859 calls (plus 1 warmup) 0.411 ms avg, 2429.4 qps
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- fortio load -qps 0 -c 1 -t 2s 10.244.0.33:8080 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.244.0.33:8080
+18:44:17 I httprunner.go:82> Starting http test for 10.244.0.33:8080 with 1 threads at -1.0 qps
+18:44:17 W http_client.go:142> Assuming http:// on missing scheme for '10.244.0.33:8080'
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:44:19 I periodic.go:533> T000 ended after 2.000213438s : 14538 calls. qps=7268.224342366408
+Ended after 2.000324636s : 14538 calls. qps=7267.8
+Aggregated Function Time : count 14538 avg 0.00013725797 +/- 0.0002976 min 4.4304e-05 max 0.018509165 sum 1.99545644
+# range, mid point, percentile, count
+>= 4.4304e-05 <= 0.001 , 0.000522152 , 99.48, 14462
+> 0.001 <= 0.002 , 0.0015 , 99.83, 52
+> 0.002 <= 0.003 , 0.0025 , 99.92, 13
+> 0.003 <= 0.004 , 0.0035 , 99.94, 2
+> 0.004 <= 0.005 , 0.0045 , 99.96, 3
+> 0.006 <= 0.007 , 0.0065 , 99.97, 2
+> 0.012 <= 0.014 , 0.013 , 99.98, 1
+> 0.014 <= 0.016 , 0.015 , 99.99, 2
+> 0.018 <= 0.0185092 , 0.0182546 , 100.00, 1
+# target 50% 0.00052463
+# target 75% 0.000764826
+# target 90% 0.000908944
+# target 99% 0.000995415
+# target 99.9% 0.00272785
+Sockets used: 1 (for perfect keepalive, would be 1)
+Code 200 : 14538 (100.0 %)
+Response Header Sizes : count 14538 avg 75 +/- 0 min 75 max 75 sum 1090350
+Response Body/Total Sizes : count 14538 avg 75 +/- 0 min 75 max 75 sum 1090350
+All done 14538 calls (plus 1 warmup) 0.137 ms avg, 7267.8 qps
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- fortio load -qps 0 -c 1 -grpc -ping -t 2s 10.244.0.33 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.244.0.33
+18:44:19 I grpcrunner.go:152> Starting GRPC Ping test for 10.244.0.33 with 1*1 threads at -1.0 qps
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:44:21 I periodic.go:533> T000 ended after 2.001285274s : 6432 calls. qps=3213.9346067061506
+Ended after 2.001353538s : 6432 calls. qps=3213.8
+Aggregated Function Time : count 6432 avg 0.00031056919 +/- 0.0005783 min 8.6875e-05 max 0.021696074 sum 1.99758104
+# range, mid point, percentile, count
+>= 8.6875e-05 <= 0.001 , 0.000543437 , 98.10, 6310
+> 0.001 <= 0.002 , 0.0015 , 99.27, 75
+> 0.002 <= 0.003 , 0.0025 , 99.55, 18
+> 0.003 <= 0.004 , 0.0035 , 99.70, 10
+> 0.004 <= 0.005 , 0.0045 , 99.75, 3
+> 0.005 <= 0.006 , 0.0055 , 99.80, 3
+> 0.006 <= 0.007 , 0.0065 , 99.84, 3
+> 0.007 <= 0.008 , 0.0075 , 99.88, 2
+> 0.008 <= 0.009 , 0.0085 , 99.91, 2
+> 0.009 <= 0.01 , 0.0095 , 99.92, 1
+> 0.011 <= 0.012 , 0.0115 , 99.94, 1
+> 0.012 <= 0.014 , 0.013 , 99.95, 1
+> 0.014 <= 0.016 , 0.015 , 99.98, 2
+> 0.02 <= 0.0216961 , 0.020848 , 100.00, 1
+# target 50% 0.000552194
+# target 75% 0.000784926
+# target 90% 0.000924565
+# target 99% 0.00176907
+# target 99.9% 0.008784
+Ping SERVING : 6432
+All done 6432 calls (plus 1 warmup) 0.311 ms avg, 3213.8 qps
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- iperf -c 10.244.1.119 -i 1 -t 2 
+------------------------------------------------------------
+Client connecting to 10.244.1.119, TCP port 5001
+TCP window size: 85.0 KByte (default)
+------------------------------------------------------------
+[  3] local 10.244.0.56 port 37550 connected with 10.244.1.119 port 5001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0- 1.0 sec   251 MBytes  2.11 Gbits/sec
+[  3]  1.0- 2.0 sec   233 MBytes  1.95 Gbits/sec
+[  3]  0.0- 2.0 sec   484 MBytes  2.02 Gbits/sec
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- netperf -H 10.244.1.119 -l 2 -P 1 -t TCP_RR -- -r 32,1024 -o P50_LATENCY,P90_LATENCY,P99_LATENCY,THROUGHPUT,THROUGHPUT_UNITS 
+MIGRATED TCP REQUEST/RESPONSE TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.244.1.119 (10.244.) port 0 AF_INET : first burst 0
+50th Percentile Latency Microseconds,90th Percentile Latency Microseconds,99th Percentile Latency Microseconds,Throughput,Throughput Units
+674,1254,6500,1058.71,Trans/s
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- netperf -H 10.244.1.119 -l 2 -P 1 -t TCP_CRR -- -r 32,1024 -o THROUGHPUT,THROUGHPUT_UNITS 
+MIGRATED TCP Connect/Request/Response TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.244.1.119 (10.244.) port 0 AF_INET
+Throughput,Throughput Units
+300.98,Trans/s
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- fortio load -qps 0 -c 1 -http1.0 -t 2s 10.244.1.119:8080 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.244.1.119:8080
+18:44:35 I httprunner.go:82> Starting http test for 10.244.1.119:8080 with 1 threads at -1.0 qps
+18:44:35 W http_client.go:142> Assuming http:// on missing scheme for '10.244.1.119:8080'
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:44:37 I periodic.go:533> T000 ended after 2.0011086s : 825 calls. qps=412.2714779197891
+Ended after 2.001151854s : 825 calls. qps=412.26
+Aggregated Function Time : count 825 avg 0.0024242753 +/- 0.001639 min 0.00137273 max 0.023627407 sum 2.00002712
+# range, mid point, percentile, count
+>= 0.00137273 <= 0.002 , 0.00168636 , 51.15, 422
+> 0.002 <= 0.003 , 0.0025 , 86.42, 291
+> 0.003 <= 0.004 , 0.0035 , 92.48, 50
+> 0.004 <= 0.005 , 0.0045 , 95.52, 25
+> 0.005 <= 0.006 , 0.0055 , 97.21, 14
+> 0.006 <= 0.007 , 0.0065 , 97.82, 5
+> 0.007 <= 0.008 , 0.0075 , 98.42, 5
+> 0.008 <= 0.009 , 0.0085 , 98.55, 1
+> 0.009 <= 0.01 , 0.0095 , 98.91, 3
+> 0.01 <= 0.011 , 0.0105 , 99.39, 4
+> 0.011 <= 0.012 , 0.0115 , 99.52, 1
+> 0.014 <= 0.016 , 0.015 , 99.76, 2
+> 0.016 <= 0.018 , 0.017 , 99.88, 1
+> 0.02 <= 0.0236274 , 0.0218137 , 100.00, 1
+# target 50% 0.00198585
+# target 75% 0.00267612
+# target 90% 0.00359
+# target 99% 0.0101875
+# target 99.9% 0.0206348
+Sockets used: 826 (for perfect keepalive, would be 1)
+Code 200 : 825 (100.0 %)
+Response Header Sizes : count 825 avg 0 +/- 0 min 0 max 0 sum 0
+Response Body/Total Sizes : count 825 avg 75 +/- 0 min 75 max 75 sum 61875
+All done 825 calls (plus 1 warmup) 2.424 ms avg, 412.3 qps
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- fortio load -qps 0 -c 1 -t 2s 10.244.1.119:8080 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.244.1.119:8080
+18:44:38 I httprunner.go:82> Starting http test for 10.244.1.119:8080 with 1 threads at -1.0 qps
+18:44:38 W http_client.go:142> Assuming http:// on missing scheme for '10.244.1.119:8080'
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:44:40 I periodic.go:533> T000 ended after 2.000602103s : 1826 calls. qps=912.7252227026177
+Ended after 2.000672699s : 1826 calls. qps=912.69
+Aggregated Function Time : count 1826 avg 0.0010948464 +/- 0.00103 min 0.000545021 max 0.01711401 sum 1.9991895
+# range, mid point, percentile, count
+>= 0.000545021 <= 0.001 , 0.000772511 , 75.19, 1373
+> 0.001 <= 0.002 , 0.0015 , 92.66, 319
+> 0.002 <= 0.003 , 0.0025 , 96.06, 62
+> 0.003 <= 0.004 , 0.0035 , 97.86, 33
+> 0.004 <= 0.005 , 0.0045 , 99.01, 21
+> 0.005 <= 0.006 , 0.0055 , 99.18, 3
+> 0.006 <= 0.007 , 0.0065 , 99.40, 4
+> 0.007 <= 0.008 , 0.0075 , 99.51, 2
+> 0.008 <= 0.009 , 0.0085 , 99.67, 3
+> 0.009 <= 0.01 , 0.0095 , 99.78, 2
+> 0.01 <= 0.011 , 0.0105 , 99.84, 1
+> 0.012 <= 0.014 , 0.013 , 99.89, 1
+> 0.014 <= 0.016 , 0.015 , 99.95, 1
+> 0.016 <= 0.017114 , 0.016557 , 100.00, 1
+# target 50% 0.000847456
+# target 75% 0.000998839
+# target 90% 0.00184765
+# target 99% 0.00498762
+# target 99.9% 0.014348
+Sockets used: 1 (for perfect keepalive, would be 1)
+Code 200 : 1826 (100.0 %)
+Response Header Sizes : count 1826 avg 75 +/- 0 min 75 max 75 sum 136950
+Response Body/Total Sizes : count 1826 avg 75 +/- 0 min 75 max 75 sum 136950
+All done 1826 calls (plus 1 warmup) 1.095 ms avg, 912.7 qps
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- fortio load -qps 0 -c 1 -grpc -ping -t 2s 10.244.1.119 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.244.1.119
+18:44:41 I grpcrunner.go:152> Starting GRPC Ping test for 10.244.1.119 with 1*1 threads at -1.0 qps
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:44:43 I periodic.go:533> T000 ended after 2.001239488s : 1317 calls. qps=658.0921513377614
+Ended after 2.0013888s : 1317 calls. qps=658.04
+Aggregated Function Time : count 1317 avg 0.0015176588 +/- 0.003542 min 0.000555589 max 0.112567644 sum 1.99875659
+# range, mid point, percentile, count
+>= 0.000555589 <= 0.001 , 0.000777795 , 50.57, 666
+> 0.001 <= 0.002 , 0.0015 , 88.84, 504
+> 0.002 <= 0.003 , 0.0025 , 94.61, 76
+> 0.003 <= 0.004 , 0.0035 , 96.20, 21
+> 0.004 <= 0.005 , 0.0045 , 97.11, 12
+> 0.005 <= 0.006 , 0.0055 , 97.95, 11
+> 0.006 <= 0.007 , 0.0065 , 98.18, 3
+> 0.007 <= 0.008 , 0.0075 , 98.56, 5
+> 0.008 <= 0.009 , 0.0085 , 98.79, 3
+> 0.009 <= 0.01 , 0.0095 , 98.94, 2
+> 0.01 <= 0.011 , 0.0105 , 99.09, 2
+> 0.011 <= 0.012 , 0.0115 , 99.24, 2
+> 0.012 <= 0.014 , 0.013 , 99.39, 2
+> 0.014 <= 0.016 , 0.015 , 99.62, 3
+> 0.016 <= 0.018 , 0.017 , 99.77, 2
+> 0.025 <= 0.03 , 0.0275 , 99.92, 2
+> 0.1 <= 0.112568 , 0.106284 , 100.00, 1
+# target 50% 0.000994988
+# target 75% 0.00163839
+# target 90% 0.00220132
+# target 99% 0.010415
+# target 99.9% 0.0292075
+Ping SERVING : 1317
+All done 1317 calls (plus 1 warmup) 1.518 ms avg, 658.0 qps
+running command: kubectl exec -it netperf-pod-cxjzt -- iperf -c 10.244.1.119 -i 1 -t 2 
+------------------------------------------------------------
+Client connecting to 10.244.1.119, TCP port 5001
+TCP window size: 85.0 KByte (default)
+------------------------------------------------------------
+[  3] local 10.244.0.160 port 35056 connected with 10.244.1.119 port 5001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0- 1.0 sec   258 MBytes  2.16 Gbits/sec
+[  3]  1.0- 2.0 sec   239 MBytes  2.00 Gbits/sec
+[  3]  0.0- 2.0 sec   496 MBytes  2.08 Gbits/sec
+running command: kubectl exec -it netperf-pod-cxjzt -- netperf -H 10.244.1.119 -l 2 -P 1 -t TCP_RR -- -r 32,1024 -o P50_LATENCY,P90_LATENCY,P99_LATENCY,THROUGHPUT,THROUGHPUT_UNITS 
+MIGRATED TCP REQUEST/RESPONSE TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.244.1.119 (10.244.) port 0 AF_INET : first burst 0
+50th Percentile Latency Microseconds,90th Percentile Latency Microseconds,99th Percentile Latency Microseconds,Throughput,Throughput Units
+726,898,2650,1255.60,Trans/s
+running command: kubectl exec -it netperf-pod-cxjzt -- netperf -H 10.244.1.119 -l 2 -P 1 -t TCP_CRR -- -r 32,1024 -o THROUGHPUT,THROUGHPUT_UNITS 
+MIGRATED TCP Connect/Request/Response TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.244.1.119 (10.244.) port 0 AF_INET
+Throughput,Throughput Units
+434.49,Trans/s
+running command: kubectl exec -it netperf-pod-cxjzt -- fortio load -qps 0 -c 1 -http1.0 -t 2s 10.244.1.119:8080 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.244.1.119:8080
+18:44:58 I httprunner.go:82> Starting http test for 10.244.1.119:8080 with 1 threads at -1.0 qps
+18:44:58 W http_client.go:142> Assuming http:// on missing scheme for '10.244.1.119:8080'
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:45:00 I periodic.go:533> T000 ended after 2.001338537s : 1033 calls. qps=516.1545540158656
+Ended after 2.001398213s : 1033 calls. qps=516.14
+Aggregated Function Time : count 1033 avg 0.0019366725 +/- 0.0009239 min 0.001380153 max 0.018393752 sum 2.00058264
+# range, mid point, percentile, count
+>= 0.00138015 <= 0.002 , 0.00169008 , 80.45, 831
+> 0.002 <= 0.003 , 0.0025 , 97.68, 178
+> 0.003 <= 0.004 , 0.0035 , 98.55, 9
+> 0.004 <= 0.005 , 0.0045 , 99.13, 6
+> 0.005 <= 0.006 , 0.0055 , 99.52, 4
+> 0.006 <= 0.007 , 0.0065 , 99.61, 1
+> 0.01 <= 0.011 , 0.0105 , 99.71, 1
+> 0.014 <= 0.016 , 0.015 , 99.90, 2
+> 0.018 <= 0.0183938 , 0.0181969 , 100.00, 1
+# target 50% 0.00176513
+# target 75% 0.00195799
+# target 90% 0.00255449
+# target 99% 0.00477833
+# target 99.9% 0.015967
+Sockets used: 1034 (for perfect keepalive, would be 1)
+Code 200 : 1033 (100.0 %)
+Response Header Sizes : count 1033 avg 0 +/- 0 min 0 max 0 sum 0
+Response Body/Total Sizes : count 1033 avg 75 +/- 0 min 75 max 75 sum 77475
+All done 1033 calls (plus 1 warmup) 1.937 ms avg, 516.1 qps
+running command: kubectl exec -it netperf-pod-cxjzt -- fortio load -qps 0 -c 1 -t 2s 10.244.1.119:8080 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.244.1.119:8080
+18:45:00 I httprunner.go:82> Starting http test for 10.244.1.119:8080 with 1 threads at -1.0 qps
+18:45:00 W http_client.go:142> Assuming http:// on missing scheme for '10.244.1.119:8080'
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:45:02 I periodic.go:533> T000 ended after 2.00065214s : 2120 calls. qps=1059.6544784642072
+Ended after 2.000733603s : 2120 calls. qps=1059.6
+Aggregated Function Time : count 2120 avg 0.00094298667 +/- 0.0007794 min 0.000561808 max 0.020239416 sum 1.99913174
+# range, mid point, percentile, count
+>= 0.000561808 <= 0.001 , 0.000780904 , 83.49, 1770
+> 0.001 <= 0.002 , 0.0015 , 98.35, 315
+> 0.002 <= 0.003 , 0.0025 , 99.06, 15
+> 0.003 <= 0.004 , 0.0035 , 99.20, 3
+> 0.004 <= 0.005 , 0.0045 , 99.39, 4
+> 0.005 <= 0.006 , 0.0055 , 99.53, 3
+> 0.006 <= 0.007 , 0.0065 , 99.58, 1
+> 0.007 <= 0.008 , 0.0075 , 99.62, 1
+> 0.008 <= 0.009 , 0.0085 , 99.72, 2
+> 0.009 <= 0.01 , 0.0095 , 99.81, 2
+> 0.01 <= 0.011 , 0.0105 , 99.86, 1
+> 0.011 <= 0.012 , 0.0115 , 99.95, 2
+> 0.02 <= 0.0202394 , 0.0201197 , 100.00, 1
+# target 50% 0.000824129
+# target 75% 0.000955413
+# target 90% 0.0014381
+# target 99% 0.00292
+# target 99.9% 0.01144
+Sockets used: 1 (for perfect keepalive, would be 1)
+Code 200 : 2120 (100.0 %)
+Response Header Sizes : count 2120 avg 75 +/- 0 min 75 max 75 sum 159000
+Response Body/Total Sizes : count 2120 avg 75 +/- 0 min 75 max 75 sum 159000
+All done 2120 calls (plus 1 warmup) 0.943 ms avg, 1059.6 qps
+running command: kubectl exec -it netperf-pod-cxjzt -- fortio load -qps 0 -c 1 -grpc -ping -t 2s 10.244.1.119 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.244.1.119
+18:45:03 I grpcrunner.go:152> Starting GRPC Ping test for 10.244.1.119 with 1*1 threads at -1.0 qps
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:45:05 I periodic.go:533> T000 ended after 2.000377283s : 2049 calls. qps=1024.306773233837
+Ended after 2.000445385s : 2049 calls. qps=1024.3
+Aggregated Function Time : count 2049 avg 0.00097536095 +/- 0.0004217 min 0.000597246 max 0.012760913 sum 1.99851458
+# range, mid point, percentile, count
+>= 0.000597246 <= 0.001 , 0.000798623 , 69.84, 1431
+> 0.001 <= 0.002 , 0.0015 , 98.88, 595
+> 0.002 <= 0.003 , 0.0025 , 99.46, 12
+> 0.003 <= 0.004 , 0.0035 , 99.61, 3
+> 0.004 <= 0.005 , 0.0045 , 99.80, 4
+> 0.005 <= 0.006 , 0.0055 , 99.90, 2
+> 0.006 <= 0.007 , 0.0065 , 99.95, 1
+> 0.012 <= 0.0127609 , 0.0123805 , 100.00, 1
+# target 50% 0.000885511
+# target 75% 0.00117773
+# target 90% 0.00169429
+# target 99% 0.00220917
+# target 99.9% 0.0059755
+Ping SERVING : 2049
+All done 2049 calls (plus 1 warmup) 0.975 ms avg, 1024.3 qps
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- iperf -c 10.245.186.73 -i 1 -t 2 
+------------------------------------------------------------
+Client connecting to 10.245.186.73, TCP port 5001
+TCP window size: 85.0 KByte (default)
+------------------------------------------------------------
+[  3] local 10.244.0.56 port 41888 connected with 10.245.186.73 port 5001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0- 1.0 sec   148 MBytes  1.24 Gbits/sec
+[  3]  1.0- 2.0 sec   166 MBytes  1.39 Gbits/sec
+[  3]  0.0- 2.0 sec   314 MBytes  1.32 Gbits/sec
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- fortio load -qps 0 -c 1 -http1.0 -t 2s 10.245.186.73:8080 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.245.186.73:8080
+18:45:09 I httprunner.go:82> Starting http test for 10.245.186.73:8080 with 1 threads at -1.0 qps
+18:45:09 W http_client.go:142> Assuming http:// on missing scheme for '10.245.186.73:8080'
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:45:11 I periodic.go:533> T000 ended after 2.001810738s : 595 calls. qps=297.2308963605929
+Ended after 2.001893581s : 595 calls. qps=297.22
+Aggregated Function Time : count 595 avg 0.003356414 +/- 0.003466 min 0.000311656 max 0.046177447 sum 1.99706631
+# range, mid point, percentile, count
+>= 0.000311656 <= 0.001 , 0.000655828 , 25.71, 153
+> 0.001 <= 0.002 , 0.0015 , 35.97, 61
+> 0.002 <= 0.003 , 0.0025 , 56.97, 125
+> 0.003 <= 0.004 , 0.0035 , 75.46, 110
+> 0.004 <= 0.005 , 0.0045 , 83.70, 49
+> 0.005 <= 0.006 , 0.0055 , 86.72, 18
+> 0.006 <= 0.007 , 0.0065 , 89.92, 19
+> 0.007 <= 0.008 , 0.0075 , 91.93, 12
+> 0.008 <= 0.009 , 0.0085 , 93.11, 7
+> 0.009 <= 0.01 , 0.0095 , 94.79, 10
+> 0.01 <= 0.011 , 0.0105 , 96.13, 8
+> 0.011 <= 0.012 , 0.0115 , 97.48, 8
+> 0.012 <= 0.014 , 0.013 , 98.49, 6
+> 0.014 <= 0.016 , 0.015 , 99.33, 5
+> 0.016 <= 0.018 , 0.017 , 99.66, 2
+> 0.02 <= 0.025 , 0.0225 , 99.83, 1
+> 0.045 <= 0.0461774 , 0.0455887 , 100.00, 1
+# target 50% 0.002668
+# target 75% 0.003975
+# target 90% 0.00704167
+# target 99% 0.01522
+# target 99.9% 0.0454769
+Sockets used: 596 (for perfect keepalive, would be 1)
+Code 200 : 595 (100.0 %)
+Response Header Sizes : count 595 avg 0 +/- 0 min 0 max 0 sum 0
+Response Body/Total Sizes : count 595 avg 75 +/- 0 min 75 max 75 sum 44625
+All done 595 calls (plus 1 warmup) 3.356 ms avg, 297.2 qps
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- fortio load -qps 0 -c 1 -t 2s 10.245.186.73:8080 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.245.186.73:8080
+18:45:12 I httprunner.go:82> Starting http test for 10.245.186.73:8080 with 1 threads at -1.0 qps
+18:45:12 W http_client.go:142> Assuming http:// on missing scheme for '10.245.186.73:8080'
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:45:14 I periodic.go:533> T000 ended after 2.000188986s : 1431 calls. qps=715.4323966465437
+Ended after 2.000277864s : 1431 calls. qps=715.4
+Aggregated Function Time : count 1431 avg 0.0013964267 +/- 0.002416 min 0.000575811 max 0.051750731 sum 1.99828667
+# range, mid point, percentile, count
+>= 0.000575811 <= 0.001 , 0.000787905 , 58.91, 843
+> 0.001 <= 0.002 , 0.0015 , 90.08, 446
+> 0.002 <= 0.003 , 0.0025 , 94.20, 59
+> 0.003 <= 0.004 , 0.0035 , 96.16, 28
+> 0.004 <= 0.005 , 0.0045 , 97.27, 16
+> 0.005 <= 0.006 , 0.0055 , 97.83, 8
+> 0.006 <= 0.007 , 0.0065 , 98.46, 9
+> 0.007 <= 0.008 , 0.0075 , 99.02, 8
+> 0.008 <= 0.009 , 0.0085 , 99.30, 4
+> 0.009 <= 0.01 , 0.0095 , 99.44, 2
+> 0.012 <= 0.014 , 0.013 , 99.51, 1
+> 0.014 <= 0.016 , 0.015 , 99.65, 2
+> 0.016 <= 0.018 , 0.017 , 99.72, 1
+> 0.018 <= 0.02 , 0.019 , 99.79, 1
+> 0.035 <= 0.04 , 0.0375 , 99.86, 1
+> 0.04 <= 0.045 , 0.0425 , 99.93, 1
+> 0.05 <= 0.0517507 , 0.0508754 , 100.00, 1
+# target 50% 0.000935767
+# target 75% 0.00151626
+# target 90% 0.00199753
+# target 99% 0.00796125
+# target 99.9% 0.042845
+Sockets used: 1 (for perfect keepalive, would be 1)
+Code 200 : 1431 (100.0 %)
+Response Header Sizes : count 1431 avg 75 +/- 0 min 75 max 75 sum 107325
+Response Body/Total Sizes : count 1431 avg 75 +/- 0 min 75 max 75 sum 107325
+All done 1431 calls (plus 1 warmup) 1.396 ms avg, 715.4 qps
+running command: kubectl exec -it netperf-pod-77c9846498-cwqf4 -- fortio load -qps 0 -c 1 -grpc -ping -t 2s 10.245.186.73 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.245.186.73
+18:45:15 I grpcrunner.go:152> Starting GRPC Ping test for 10.245.186.73 with 1*1 threads at -1.0 qps
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:45:17 I periodic.go:533> T000 ended after 2.00013619s : 1371 calls. qps=685.4533240558984
+Ended after 2.000236688s : 1371 calls. qps=685.42
+Aggregated Function Time : count 1371 avg 0.0014575512 +/- 0.001481 min 0.00058691 max 0.022356447 sum 1.9983027
+# range, mid point, percentile, count
+>= 0.00058691 <= 0.001 , 0.000793455 , 43.62, 598
+> 0.001 <= 0.002 , 0.0015 , 87.02, 595
+> 0.002 <= 0.003 , 0.0025 , 93.36, 87
+> 0.003 <= 0.004 , 0.0035 , 96.21, 39
+> 0.004 <= 0.005 , 0.0045 , 97.16, 13
+> 0.005 <= 0.006 , 0.0055 , 97.74, 8
+> 0.006 <= 0.007 , 0.0065 , 98.40, 9
+> 0.007 <= 0.008 , 0.0075 , 98.83, 6
+> 0.008 <= 0.009 , 0.0085 , 99.12, 4
+> 0.009 <= 0.01 , 0.0095 , 99.34, 3
+> 0.01 <= 0.011 , 0.0105 , 99.49, 2
+> 0.011 <= 0.012 , 0.0115 , 99.64, 2
+> 0.012 <= 0.014 , 0.013 , 99.85, 3
+> 0.014 <= 0.016 , 0.015 , 99.93, 1
+> 0.02 <= 0.0223564 , 0.0211782 , 100.00, 1
+# target 50% 0.00114706
+# target 75% 0.00172311
+# target 90% 0.00247011
+# target 99% 0.0085725
+# target 99.9% 0.015258
+Ping SERVING : 1371
+All done 1371 calls (plus 1 warmup) 1.458 ms avg, 685.4 qps
+running command: kubectl exec -it netperf-pod-cxjzt -- iperf -c 10.245.186.73 -i 1 -t 2 
+------------------------------------------------------------
+Client connecting to 10.245.186.73, TCP port 5001
+TCP window size: 85.0 KByte (default)
+------------------------------------------------------------
+[  3] local 10.244.0.160 port 33530 connected with 10.245.186.73 port 5001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0- 1.0 sec   256 MBytes  2.15 Gbits/sec
+[  3]  1.0- 2.0 sec   239 MBytes  2.01 Gbits/sec
+[  3]  0.0- 2.0 sec   495 MBytes  2.07 Gbits/sec
+running command: kubectl exec -it netperf-pod-cxjzt -- fortio load -qps 0 -c 1 -http1.0 -t 2s 10.245.186.73:8080 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.245.186.73:8080
+18:45:21 I httprunner.go:82> Starting http test for 10.245.186.73:8080 with 1 threads at -1.0 qps
+18:45:21 W http_client.go:142> Assuming http:// on missing scheme for '10.245.186.73:8080'
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:45:23 I periodic.go:533> T000 ended after 2.000198031s : 742 calls. qps=370.96326888644955
+Ended after 2.000278101s : 742 calls. qps=370.95
+Aggregated Function Time : count 742 avg 0.002694645 +/- 0.003041 min 0.000264842 max 0.051930643 sum 1.9994266
+# range, mid point, percentile, count
+>= 0.000264842 <= 0.001 , 0.000632421 , 23.05, 171
+> 0.001 <= 0.002 , 0.0015 , 35.98, 96
+> 0.002 <= 0.003 , 0.0025 , 78.17, 313
+> 0.003 <= 0.004 , 0.0035 , 86.93, 65
+> 0.004 <= 0.005 , 0.0045 , 89.62, 20
+> 0.005 <= 0.006 , 0.0055 , 92.99, 25
+> 0.006 <= 0.007 , 0.0065 , 94.34, 10
+> 0.007 <= 0.008 , 0.0075 , 96.09, 13
+> 0.008 <= 0.009 , 0.0085 , 97.17, 8
+> 0.009 <= 0.01 , 0.0095 , 97.98, 6
+> 0.01 <= 0.011 , 0.0105 , 98.25, 2
+> 0.011 <= 0.012 , 0.0115 , 98.79, 4
+> 0.012 <= 0.014 , 0.013 , 99.06, 2
+> 0.016 <= 0.018 , 0.017 , 99.60, 4
+> 0.02 <= 0.025 , 0.0225 , 99.87, 2
+> 0.05 <= 0.0519306 , 0.0509653 , 100.00, 1
+# target 50% 0.00233227
+# target 75% 0.00292492
+# target 90% 0.005112
+# target 99% 0.01358
+# target 99.9% 0.0504981
+Sockets used: 743 (for perfect keepalive, would be 1)
+Code 200 : 742 (100.0 %)
+Response Header Sizes : count 742 avg 0 +/- 0 min 0 max 0 sum 0
+Response Body/Total Sizes : count 742 avg 75 +/- 0 min 75 max 75 sum 55650
+All done 742 calls (plus 1 warmup) 2.695 ms avg, 370.9 qps
+running command: kubectl exec -it netperf-pod-cxjzt -- fortio load -qps 0 -c 1 -t 2s 10.245.186.73:8080 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.245.186.73:8080
+18:45:24 I httprunner.go:82> Starting http test for 10.245.186.73:8080 with 1 threads at -1.0 qps
+18:45:24 W http_client.go:142> Assuming http:// on missing scheme for '10.245.186.73:8080'
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:45:26 I periodic.go:533> T000 ended after 2.000422965s : 1471 calls. qps=735.3444875094203
+Ended after 2.000495149s : 1471 calls. qps=735.32
+Aggregated Function Time : count 1471 avg 0.0013592199 +/- 0.001639 min 0.000590022 max 0.020528066 sum 1.99941249
+# range, mid point, percentile, count
+>= 0.000590022 <= 0.001 , 0.000795011 , 62.61, 921
+> 0.001 <= 0.002 , 0.0015 , 90.28, 407
+> 0.002 <= 0.003 , 0.0025 , 93.47, 47
+> 0.003 <= 0.004 , 0.0035 , 95.24, 26
+> 0.004 <= 0.005 , 0.0045 , 96.46, 18
+> 0.005 <= 0.006 , 0.0055 , 97.21, 11
+> 0.006 <= 0.007 , 0.0065 , 97.89, 10
+> 0.007 <= 0.008 , 0.0075 , 98.64, 11
+> 0.008 <= 0.009 , 0.0085 , 98.91, 4
+> 0.009 <= 0.01 , 0.0095 , 99.25, 5
+> 0.01 <= 0.011 , 0.0105 , 99.46, 3
+> 0.011 <= 0.012 , 0.0115 , 99.59, 2
+> 0.012 <= 0.014 , 0.013 , 99.73, 2
+> 0.014 <= 0.016 , 0.015 , 99.80, 1
+> 0.018 <= 0.02 , 0.019 , 99.93, 2
+> 0.02 <= 0.0205281 , 0.020264 , 100.00, 1
+# target 50% 0.000917336
+# target 75% 0.00144779
+# target 90% 0.00198993
+# target 99% 0.009258
+# target 99.9% 0.019529
+Sockets used: 1 (for perfect keepalive, would be 1)
+Code 200 : 1471 (100.0 %)
+Response Header Sizes : count 1471 avg 75 +/- 0 min 75 max 75 sum 110325
+Response Body/Total Sizes : count 1471 avg 75 +/- 0 min 75 max 75 sum 110325
+All done 1471 calls (plus 1 warmup) 1.359 ms avg, 735.3 qps
+running command: kubectl exec -it netperf-pod-cxjzt -- fortio load -qps 0 -c 1 -grpc -ping -t 2s 10.245.186.73 
+Fortio 1.3.0 running at 0 queries per second, 4->4 procs, for 2s: 10.245.186.73
+18:45:26 I grpcrunner.go:152> Starting GRPC Ping test for 10.245.186.73 with 1*1 threads at -1.0 qps
+Starting at max qps with 1 thread(s) [gomax 4] for 2s
+18:45:28 I periodic.go:533> T000 ended after 2.000118577s : 11463 calls. qps=5731.160208108002
+Ended after 2.000181798s : 11463 calls. qps=5731
+Aggregated Function Time : count 11463 avg 0.0001740661 +/- 0.0001437 min 7.6769e-05 max 0.0060698 sum 1.99531974
+# range, mid point, percentile, count
+>= 7.6769e-05 <= 0.001 , 0.000538384 , 99.55, 11411
+> 0.001 <= 0.002 , 0.0015 , 99.90, 40
+> 0.002 <= 0.003 , 0.0025 , 99.94, 5
+> 0.003 <= 0.004 , 0.0035 , 99.99, 6
+> 0.006 <= 0.0060698 , 0.0060349 , 100.00, 1
+# target 50% 0.000540448
+# target 75% 0.000772328
+# target 90% 0.000911456
+# target 99% 0.000994932
+# target 99.9% 0.0021074
+Ping SERVING : 11463
+All done 11463 calls (plus 1 warmup) 0.174 ms avg, 5731.0 qps

@@ -12,6 +12,13 @@ KIND_CMD="kind"
 KIND_KUBECONFIG="${HOME}/.kube/kind"
 CILIUM_VERSION="1.11.2"
 CILIUM_IMAGE="quay.io/cilium/cilium:v${CILIUM_VERSION}"
+SCRIPTS_DIR="./scripts"
+
+##############################################################
+#### SOURCES #################################################
+##############################################################
+
+source "${SCRIPTS_DIR}/common.sh"
 
 ##############################################################
 #### FUNCTIONS ###############################################
@@ -20,8 +27,9 @@ CILIUM_IMAGE="quay.io/cilium/cilium:v${CILIUM_VERSION}"
 # Check for required tools
 tools::check::prereqs() {
     for tool in ${TOOL_LIST}; do
+        twr::logger "info" "Checking for \"${tool}\" tool on local system"
         if ! type "${tool}"; then
-            echo "[ERROR]: The ${tool} tool was not found Please install and try again"
+            twr::logger "error" "The \"${tool}\" was not found Please install and try again"
             exit 1
         fi
     done
@@ -31,6 +39,7 @@ tools::check::prereqs() {
 # Setup Cilium Helm Chart Repo
 cilium::setup::helm() {
 
+    twr::logger "info" "Adding Cilium Helm Repo to local system"
     ${HELM_CMD} repo add cilium https://helm.cilium.io/
 
 }
@@ -53,9 +62,11 @@ kind::load::image() {
     image_reference="${2}"
 
     # Pull image locally
+    twr::logger "info" "Pulling \"${image_reference}\" container image to local system"
     ${DOCKER_CMD} pull "${image_reference}"
 
     # Load image to target KinD cluster nodes
+    twr::logger "info" "Load \"${image_reference}\" image to target KinD cluster \"${cluster_name}\""
     ${KIND_CMD} load docker-image --name "${cluster_name}" "${image_reference}"
 
 }
@@ -67,6 +78,8 @@ cilium::install::defaults() {
     local cluster_name
 
     cluster_name="${1}"
+
+    twr::logger "info" "Installing Cilium CNI to target KinD cluster \"${cluster_name}\""
 
     helm install cilium cilium/cilium --version "${CILIUM_VERSION}" \
    --kubeconfig "${KIND_KUBECONFIG}" --kube-context "kind-${cluster_name}" \
@@ -89,6 +102,8 @@ cilium::install::kpr() {
     local cluster_name
 
     cluster_name="${1}"
+
+    twr::logger "info" "Installing Cilium CNI to target KinD cluster \"${cluster_name}\""
 
     helm install cilium cilium/cilium --version "${CILIUM_VERSION}" \
    --kubeconfig "${KIND_KUBECONFIG}" --kube-context "kind-${cluster_name}" \
@@ -134,21 +149,28 @@ kind::setup::cilium() {
 kind::build::clusters() {
 
     # Build standard cluster with KinDNet CNI
+    twr::logger "info" "Creating KinD cluster \"cluster1\""
     ${KIND_CMD} create cluster --name cluster1 --config=kind/kind-kindnet.yaml --kubeconfig="${KIND_KUBECONFIG}"
     # Build cluster with Cilium CNI and default options
+    twr::logger "info" "Creating KinD cluster \"cluster2\""
     ${KIND_CMD} create cluster --name cluster2 --config=kind/kind-cilium-defaults.yaml --kubeconfig="${KIND_KUBECONFIG}"
     # Build cluster with Cilium CNI and KubeProxy replacement enabled
-    ${KIND_CMD} create cluster --name cluster3 --config=kind/kind-cilium-kpr.yaml --kubeconfig="${KIND_KUBECONFIG}" 
+    #twr::logger "info" "Creating KinD cluster \"cluster3\""
+    #${KIND_CMD} create cluster --name cluster3 --config=kind/kind-cilium-kpr.yaml --kubeconfig="${KIND_KUBECONFIG}" 
 
 }
 
 main() {
 
+    twr::logger "heading" "Starting setup of K8s Perf Test Demo Environment"
+    twr::logger "sub-heading" "Checking for tool prereqs"
     tools::check::prereqs
+    twr::logger "sub-heading" "Checking for KinD prereqs"
     kind::setup::prereqs
+    twr::logger "sub-heading" "Building Clusters"
     kind::build::clusters
     kind::setup::cilium "cluster2" "false"
-    kind::setup::cilium "cluster3" "true"
+    #kind::setup::cilium "cluster3" "true"
 
 }
 

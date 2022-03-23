@@ -7,6 +7,8 @@ networking:
   podSubnet: "198.18.0.0/16"
   disableDefaultCNI: true # disable the default CNI
   kubeProxyMode: none # do not deploy kube-proxy
+featureGates:
+  TopologyAwareHints: true
 nodes:
   - role: control-plane
   - role: worker
